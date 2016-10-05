@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 2, 2016 10:39:18 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="Clases.Llamado" table="llamado" catalog="restaurante" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="idMesa" type="int">
+            <column name="id_Mesa" not-null="true" />
+        </property>
+        <property name="idMozo" type="int">
+            <column name="id_Mozo" not-null="true" />
+        </property>
+        <property name="fechaHora" type="string">
+            <column name="fechaHora" length="30" not-null="true" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" length="10" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
