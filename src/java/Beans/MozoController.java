@@ -54,4 +54,8 @@ public class MozoController implements Serializable{
     public void loadItems(){
         this.items=helper.findAll();
     }
+    
+    public Mozo getMozo(int id){
+        return helper.findById(id);
+    }
 }

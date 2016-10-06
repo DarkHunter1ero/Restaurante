@@ -10,20 +10,23 @@ public class Mesa  implements java.io.Serializable {
 
 
      private int id;
-     private String numero;
-     private int idMozo;
-     private boolean activo;
+     private int numero;
+     private Mozo mozo;
+     private boolean activo = true;
 
     public Mesa() {
     }
 
-    public Mesa(int id, String numero, int idMozo, boolean activo) {
-       this.id = id;
-       this.numero = numero;
-       this.idMozo = idMozo;
-       this.activo = activo;
+    public Mesa(int numero) {
+        this.numero = numero;
     }
-   
+
+    public Mesa(int id, int numero, Mozo mozo) {
+        this.id = id;
+        this.numero = numero;
+        this.mozo = mozo;
+    }
+
     public int getId() {
         return this.id;
     }
@@ -31,20 +34,22 @@ public class Mesa  implements java.io.Serializable {
     public void setId(int id) {
         this.id = id;
     }
-    public String getNumero() {
+    public int getNumero() {
         return this.numero;
     }
     
-    public void setNumero(String numero) {
+    public void setNumero(int numero) {
         this.numero = numero;
     }
-    public int getIdMozo() {
-        return this.idMozo;
+
+    public Mozo getMozo() {
+        return mozo;
+    }
+
+    public void setMozo(Mozo mozo) {
+        this.mozo = mozo;
     }
     
-    public void setIdMozo(int idMozo) {
-        this.idMozo = idMozo;
-    }
     public boolean isActivo() {
         return this.activo;
     }
@@ -52,9 +57,6 @@ public class Mesa  implements java.io.Serializable {
     public void setActivo(boolean activo) {
         this.activo = activo;
     }
-
-
-
 
 }
 

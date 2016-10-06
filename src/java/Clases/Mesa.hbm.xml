@@ -8,14 +8,14 @@
             <column name="id" />
             <generator class="assigned" />
         </id>
-        <property name="numero" type="string">
+        <property name="numero" type="int">
             <column name="numero" length="6" not-null="true" />
         </property>
-        <property name="idMozo" type="int">
-            <column name="id_Mozo" not-null="true" />
-        </property>
+        <many-to-one name="mozo" class="Clases.Mozo" cascade="save-update">
+            <column name="id_Mozo"/>
+        </many-to-one>
         <property name="activo" type="boolean">
-            <column name="activo" not-null="true" />
+            <column name="activo" not-null="false" />
         </property>
     </class>
 </hibernate-mapping>

@@ -10,6 +10,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Projections;
 
 public abstract class DBGenericClass<T>{
     
@@ -21,6 +22,10 @@ public abstract class DBGenericClass<T>{
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         session = sessionFactory.getCurrentSession();
         this.entityClass = entityClass;
+    }
+    
+    public Session getSession(){
+        return this.session;
     }
     
     public void create(T entity){
@@ -70,16 +75,47 @@ public abstract class DBGenericClass<T>{
     }
     
     public List<T> findAll() {
-        List<T> mozoList = null;
+        List<T> list = null;
         try{
             session = HibernateUtil.getSessionFactory().openSession();
             Criteria cri = session.createCriteria(entityClass);
-            mozoList = cri.list();
+            list = cri.list();
         }catch(Exception e){
             throw e;
         }finally{
             session.close();
         }
-        return mozoList;
+        return list;
+    }
+    
+    public boolean existenRegistros() {
+        List<T> list = null;
+        try{
+            session = HibernateUtil.getSessionFactory().openSession();
+            Criteria cri = session.createCriteria(entityClass);
+            list = cri.list();
+        }catch(Exception e){
+            throw e;
+        }finally{
+            session.close();
+        }
+        if((list!=null) && (!list.isEmpty())){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    public int count() {
+        int result;
+        try{
+            session = HibernateUtil.getSessionFactory().openSession();
+            result = (Integer)session.createCriteria(entityClass).setProjection(Projections.rowCount()).uniqueResult();
+        }catch(Exception e){
+            throw e;
+        }finally{
+            session.close();
+        }
+        return result;
     }
 }
