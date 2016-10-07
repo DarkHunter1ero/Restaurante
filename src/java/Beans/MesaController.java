@@ -12,6 +12,8 @@ import Clases.MozoHelper;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -21,18 +23,25 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 public class MesaController implements Serializable{
     
-    MesaHelper helper;
+    MesaHelper helperMesa;
+    MozoHelper helperMozo;
     
     private Mesa selected = new Mesa();
     private List<Mesa> items = new ArrayList<>();
     private int cantidad;
     
+    @PostConstruct
+    private void init(){
+        loadItems();
+    }
+    
     public MesaController() {
-        helper = new MesaHelper();
+        helperMesa = new MesaHelper();
+        helperMozo = new MozoHelper();
     }
     
     public void crearMozo(){
-        helper.create(selected);
+        helperMesa.create(selected);
         selected= new Mesa();
     }
     
@@ -48,7 +57,6 @@ public class MesaController implements Serializable{
     }
     
     public List<Mesa> getItems(){
-        loadItems();
         return this.items;
     }
     
@@ -57,7 +65,7 @@ public class MesaController implements Serializable{
     }
     
     public void loadItems(){
-        this.items=helper.obtenerMesasMozos();
+        this.items=helperMesa.obtenerMesasMozos();
     }
     
     public String getEstado(boolean activo){
@@ -81,16 +89,25 @@ public class MesaController implements Serializable{
         if(!existenRegistros()){
             numero=0;
         }else{
-            numero = helper.count();
+            numero = helperMesa.count();
         }
         int i;
         for (i = 0; i < cantidad; i++) {
-            helper.create(new Mesa(++numero));
+            helperMesa.create(new Mesa(++numero));
         }
-        FacesContext.getCurrentInstance().addMessage("generarMButton", new FacesMessage("Las "+ i+1 +" mesas fueron creadas correctamente."));
+        FacesContext.getCurrentInstance().addMessage("generarMButton", new FacesMessage("Las "+ i +" mesas fueron creadas correctamente."));
     }
     
     public boolean existenRegistros(){
-        return helper.existenRegistros();
+        return helperMesa.existenRegistros();
+    }
+    
+    public void guardarLista(){
+        for(Mesa m : items){
+            int id = m.getMozo().getId();
+            m.setMozo(helperMozo.findById(id));
+            helperMesa.update(m);
+        }
+        FacesContext.getCurrentInstance().addMessage("saveButton", new FacesMessage("Se han guardado los datos correctamente."));
     }
 }

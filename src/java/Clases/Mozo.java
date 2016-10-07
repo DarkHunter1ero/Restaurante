@@ -1,6 +1,9 @@
 package Clases;
 // Generated Oct 2, 2016 10:39:18 PM by Hibernate Tools 4.3.1
 
+import java.util.Objects;
+
+
 
 
 /**
@@ -71,7 +74,46 @@ public class Mozo  implements java.io.Serializable {
         this.activo = activo;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Mozo other = (Mozo) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (this.activo != other.activo) {
+            return false;
+        }
+        if (!Objects.equals(this.cedula, other.cedula)) {
+            return false;
+        }
+        if (!Objects.equals(this.nombre, other.nombre)) {
+            return false;
+        }
+        if (!Objects.equals(this.apellido, other.apellido)) {
+            return false;
+        }
+        if (!Objects.equals(this.foto, other.foto)) {
+            return false;
+        }
+        return true;
+    }
+
+    
 
 
 }

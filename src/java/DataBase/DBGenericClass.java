@@ -71,7 +71,16 @@ public abstract class DBGenericClass<T>{
     }
     
     public T findById(int id){
-        return (T)session.get(entityClass, id);
+        T object;
+        try{
+        session = HibernateUtil.getSessionFactory().openSession();
+        object = (T)session.get(entityClass, id);
+        }catch(Exception e){
+            throw e;
+        }finally{
+            session.close();
+        }
+        return object;
     }
     
     public List<T> findAll() {
@@ -107,15 +116,15 @@ public abstract class DBGenericClass<T>{
     }
     
     public int count() {
-        int result;
+        Long result;
         try{
             session = HibernateUtil.getSessionFactory().openSession();
-            result = (Integer)session.createCriteria(entityClass).setProjection(Projections.rowCount()).uniqueResult();
+            result = (long)session.createCriteria(entityClass).setProjection(Projections.rowCount()).uniqueResult();
         }catch(Exception e){
             throw e;
         }finally{
             session.close();
         }
-        return result;
+        return result.intValue();
     }
 }
